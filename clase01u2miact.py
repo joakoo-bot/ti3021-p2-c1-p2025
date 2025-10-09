@@ -1,3 +1,5 @@
+
+
 class cliente:
     def __init__(self, nombre:str,apellido:str,run:int,numero_verificador:int,telefono:str,correo:str):
      self.__nombre:str=nombre
@@ -6,7 +8,6 @@ class cliente:
      self.__numero_vereficador:int=numero_verificador
      self.__telefono:str=telefono
      self.__correo:str=correo
-
 
     @property
     def nombre(self):
@@ -46,4 +47,11 @@ class pedido:
     @property
     def total_a_pagar(self):
         return self.__total_a_pagar  
-    
+     
+class pedido_llevar(pedido):
+    def __init__(self,tiempo_estimado):
+        super().__init__(numero=numero ,fecha=fecha ,total_a_pagar=total_a_pagar)
+        self.__tiempo_estimado:int=tiempo_estimado
+    @property 
+    def tiempo_estimado(self):
+        return self.__tiempo_estimado
