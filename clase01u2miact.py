@@ -47,7 +47,7 @@ class pedido:
     @property
     def total_a_pagar(self):
         return self.__total_a_pagar  
-     
+    
 class pedido_llevar(pedido):
     def __init__(self,tiempo_estimado):
         super().__init__(numero=numero ,fecha=fecha ,total_a_pagar=total_a_pagar)
@@ -55,3 +55,39 @@ class pedido_llevar(pedido):
     @property 
     def tiempo_estimado(self):
         return self.__tiempo_estimado
+ 
+class pedido_domcilio(pedido):
+    def __init__(self, repartidor:str , direccion:str ):
+        self.__repartidor:str=repartidor
+
+class pedido_local(pedido):
+    def __init__(self,numero_mesa:int):
+        self.__numero_mesa:int=numero_mesa
+
+
+class repartidor:
+    def __init__(self,nombre:str,apellido:str,run:int,numero_verificador:str,correo:str,telefono:str):
+     self.__nombre:str=nombre
+     self.__apellido:str=apellido
+     self.__run:int=run
+     self.__numero_vereficador:int=numero_verificador
+     self.__correo:str=correo
+
+    @property
+    def nombre(self):
+        return self.__nombre 
+    @property
+    def apellido(self):
+        return self.__apellido
+    @property
+    def run(self):
+        return self.__run
+    @property
+    def numero_verificador(self):
+        return self.__numero_vereficador
+    @property
+    def telefono(self):
+        return self.__telefono
+    @property
+    def correo(self):
+        return self.__correo
