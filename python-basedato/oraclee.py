@@ -4,12 +4,15 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-un="scott"
-cs ="localhost/orclpdb"
-pw=os.getenv("ORACLE_PASSWORD") 
+username=os.getenv ("ORACLE_USER")
+dsn =os.getenv("ORACLE_DSN")
+password=os.getenv("ORACLE_PASSWORD") 
 
-with oracledb.connect(user = un , password=pw , dsn=cs)as connection: 
-    with connection.curso()as cursos: 
+with oracledb.connect(user = username , password=password , dsn=dsn)as connection: 
+    with connection.curso()as cursor: 
         sql ="select sysdate from dual"
-        for r in cursos.execute(sql):
-            print(r)
+        resultado= cursor.execute(sql)
+        for row in cursor.execute(sql):
+            print(row) 
+            for column in row :
+                print (column)
