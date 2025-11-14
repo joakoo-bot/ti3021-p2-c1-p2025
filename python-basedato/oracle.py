@@ -11,7 +11,20 @@ password = os.getenv("ORACLE_PASSWORD")
 def get_connection():
     return oracledb.connect(user=username, password=password, dsn=dsn) 
 
-table=[
+
+def create_schema(query):
+    try:
+        with get_connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute(query)
+                print(f"Tabla creada \n {query}")
+            conn.commit()
+    except oracledb.DatabaseError as e:
+        err = e
+        print(f"No se pudo crear la tabla: {err} \n {query}")
+
+
+tables=[
 
 
     (  "CREATE TABLE cliente ("
@@ -42,7 +55,7 @@ table=[
             "direccion  VARCHAR2(100),"
             "RUTrepartidor VARCHAR2(50),"
             "Npedido int ," 
-                "FOREIGN KEY (RUTrepartidor) REFERENCES repartidor(rut),"
+            "FOREIGN KEY (RUTrepartidor) REFERENCES repartidor(rut),"
             "FOREIGN KEY (Nperdido) REFERENCES pedido(numero)"
             ")" 
 
@@ -66,23 +79,84 @@ for query in tables:
 
 from datetime import datetime
 ##CREATE
-def create_persona(rut, nombres, apellidos=None, fecha_nacimiento=None, numero_telefono=None):
-    sql = (
-     "INSERT INTO personas (rut, nombres, apellidos, fecha_nacimiento,numero_telefono) "
-     "VALUES (:rut, :nombres, :apellidos, :fecha_nacimiento, :numero_telefono)"
-     )
-    if fecha_nacimiento:
-         bind_fecha = datetime.strptime(fecha_nacimiento, "%Y-%m-%d")
-    else:
-         bind_fecha = None
-    with get_connection() as conn:
-        with conn.cursor() as cur:
-            cur.execute(sql, {             
-             "rut": rut,
-             "nombres": nombres,
-             "apellidos": apellidos,
-             "fecha_nacimiento": bind_fecha,
-             "numero_telefono": numero_telefono,
-             })
-        conn.commit()
-    print(f"Persona con RUT={rut} creada.")
+def create_cliente(
+                    rut:str, 
+                   nombres:str, 
+                   apellidos:str, 
+                   fecha_nacimiento:str, 
+                   numero_telefono:str,
+                   correo:str
+):
+   sql={
+       "INSERT INTO CLIENTE (rut,nombres,apellidos,fecha_nacimiento,numero_telefono,correo)"
+       "VALUES(:rut,:nombres,apellidos,:fechas_nacimiento,numero_telefono,:correo)"
+   }
+
+   parametros = {
+       "rut":rut,
+       "nombres": nombres,
+       "apellidos":apellidos,
+       "fecha_nacimiento":datetime.strptime(fecha_nacimiento,"%y-%m-%d"),
+       "numero_telefono":numero_telefono,
+       "correo":correo
+   }
+   def create_cliente(query):
+    try:
+        with get_connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute(query)
+                print(f"Tabla creada \n {parametros}")
+            conn.commit()
+    except oracledb.DatabaseError as e:
+        err = e
+        print(f"No se pudo crear la tabla: {err} \n {parametros}")
+
+create_cliente(
+    rut="22400419"
+    nombres=
+    apellidos=
+    fecha_nacimiento=
+    numero_telefono=
+    correo=
+
+):
+
+
+def create_pedido(
+                    numero:int, 
+                    fecha:str, 
+                    RUTcliente:str, 
+                    total_a_pagar:int
+):
+    pass   
+
+def create_repartidor(
+                    rut:str, 
+                   nombres:str, 
+                   apellidos:str, 
+                   fecha_nacimiento:str, 
+                   numero_telefono:str,
+                   correo:str
+):
+    pass  
+
+def create_pedido_local(
+                        numero_mesa :int,
+                        Npedido:int
+):
+    pass   
+
+def create_pedido_llevar(
+                        tiempo_estimado: int,
+                        Npedido:int,
+                        
+):
+    pass   
+
+def create_pedido_domicilio(
+                            direccion :int,
+                            Npedido: int,
+                            RUTrepartidor : str, 
+                            
+):
+    pass  

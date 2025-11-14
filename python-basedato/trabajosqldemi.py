@@ -131,7 +131,7 @@ def create_cliente(rut: str, nombres: str, apellidos: str,fecha_nacimiento:date,
     )
     bind_fecha = None
     if fecha_nacimiento:
-        bind_fecha = datetime.strptime(fecha_nacimiento, "%Y-%m-%d")#nose que hace
+        bind_fecha = date.strptime(fecha_nacimiento, "%Y-%m-%d")#nose que hace
 
     with get_connection() as conn:
         with conn.cursor() as cur:

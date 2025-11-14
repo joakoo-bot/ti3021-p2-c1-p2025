@@ -22,7 +22,7 @@
         pedido_local (
             numero_mesa int,
             Npedido INTEGER
-            FOREIGN KEY (Nperdido) REFERENCES pedido(numero)
+            FOREIGN KEY (Npedido) REFERENCES pedido(numero)
 
         );
     
@@ -30,7 +30,7 @@
         pedido_para_llevar (
             tiempo_estimado int,
             Npedido INTEGER
-            FOREIGN KEY (Nperdido) REFERENCES pedido(numero)
+            FOREIGN KEY (Npedido) REFERENCES pedido(numero)
 
         );   
     
@@ -38,7 +38,7 @@
         pedido_a_domicilio (
             direccion int,
             Npedido INTEGER
-            FOREIGN KEY (Nperdido) REFERENCES pedido(numero) ,
+            FOREIGN KEY (Npedido) REFERENCES pedido(numero) ,
             RUTrepartidor  INTEGER, 
             FOREIGN KEY (RUTrepartidor) REFERENCES repartidor(rut)
         );
