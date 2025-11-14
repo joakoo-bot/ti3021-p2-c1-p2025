@@ -25,10 +25,10 @@ class Persona:
 personas: list[Persona] = []
 
 """
-CRUD
-Create
-Read
-Update
+CRUD        
+Createp      
+Read       
+Update      
 Delete
 """
 
