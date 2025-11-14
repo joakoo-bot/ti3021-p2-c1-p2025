@@ -122,3 +122,29 @@ def create_table() -> None:
         print(f"No se pudo crear la tabla: {err}")
 
 #insertar informacion 
+
+from datetime import date
+def create_cliente(rut: str, nombres: str, apellidos: str,fecha_nacimiento:date, numero_telefono: str, correo: str) -> None:
+    sql = (
+        "INSERT INTO personas (rut, nombres, apellidos, fecha_nacimiento, numero_telefono,correo) "
+        "VALUES (:rut, :nombres, :apellidos, :fecha_nacimiento, :numero_telefono , :correo)"
+    )
+    bind_fecha = None
+    if fecha_nacimiento:
+        bind_fecha = datetime.strptime(fecha_nacimiento, "%Y-%m-%d")#nose que hace
+
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute(sql, {
+                "rut": rut,
+                "nombres": nombres,
+                "apellidos": apellidos,
+                "fecha_nacimiento": bind_fecha,
+                "numero_telefono": numero_telefono,
+                "correo": correo
+            })
+            conn.commit()
+            print(f"cliente con RUT={rut} creada.") 
+
+
+#read 
