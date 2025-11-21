@@ -227,20 +227,81 @@ def create_repartidor(
                    numero_telefono:str,
                    correo:str
 ):
-    pass  
+    sql={
+        "INSERT INTO CLIENTE (id,rut,nombres,apellidos,fecha_nacimiento,numero_telefono,correo)"
+        "VALUES(:id,:rut,:nombres,apellidos,:fechas_nacimiento,numero_telefono,:correo)"
+    }
+
+    parametros = {
+        "id":id,
+        "rut":rut,
+        "nombres": nombres,
+        "apellidos":apellidos,
+        "fecha_nacimiento":datetime.strptime(fecha_nacimiento,"%y-%m-%d"),
+        "numero_telefono":numero_telefono,
+        "correo":correo
+    }
+    
+    def create_cliente(query):
+        try:
+            with get_connection() as conn:
+                with conn.cursor() as cur:
+                    cur.execute(query)
+                    print(f"Tabla creada \n {parametros}")
+                conn.commit()
+        except oracledb.DatabaseError as e:
+            err = e
+            print(f"No se pudo crear la tabla: {err} \n {parametros}")
 
 def create_pedido_local(
                         numero_mesa :int,
                         Npedido:int
 ):
-    pass   
+    sql={
+        "INSERT INTO CLIENTE (numero_mesa,Npedido)"
+        "VALUES(:numero_mesa,:Npedido)"
+    }
+
+    parametros = {
+        "numero_mesa":numero_mesa,
+        "Npedido":Npedido
+    }
+    
+    def create_cliente(query):
+        try:
+            with get_connection() as conn:
+                with conn.cursor() as cur:
+                    cur.execute(query)
+                    print(f"Tabla creada \n {parametros}")
+                conn.commit()
+        except oracledb.DatabaseError as e:
+            err = e
+            print(f"No se pudo crear la tabla: {err} \n {parametros}")  
 
 def create_pedido_llevar(
                         tiempo_estimado: int,
-                        Npedido:int,
-                        
+                        Npedido:int,                       
 ):
-    pass   
+    sql={
+        "INSERT INTO CLIENTE (tiempo_estimado,Npedido)"
+        "VALUES(:numero_mesa,:Npedido)"
+    }
+
+    parametros = {
+        "tiempo_estimado":tiempo_estimado,
+        "Npedido":Npedido
+    }
+    
+    def create_cliente(query):
+        try:
+            with get_connection() as conn:
+                with conn.cursor() as cur:
+                    cur.execute(query)
+                    print(f"Tabla creada \n {parametros}")
+                conn.commit()
+        except oracledb.DatabaseError as e:
+            err = e
+            print(f"No se pudo crear la tabla: {err} \n {parametros}")    
 
 def create_pedido_domicilio(
                             direccion :int,
@@ -248,7 +309,27 @@ def create_pedido_domicilio(
                             RUTrepartidor : str, 
                             
 ):
-    pass  
+    sql={
+        "INSERT INTO CLIENTE (numero_mesa,Npedido)"
+        "VALUES(:numero_mesa,:Npedido)"
+    }
+
+    parametros = {
+        "direccion":direccion,
+        "Npedido":Npedido,
+        "RUTrepartidor": RUTrepartidor
+    }
+    
+    def create_cliente(query):
+        try:
+            with get_connection() as conn:
+                with conn.cursor() as cur:
+                    cur.execute(query)
+                    print(f"Tabla creada \n {parametros}")
+                conn.commit()
+        except oracledb.DatabaseError as e:
+            err = e
+            print(f"No se pudo crear la tabla: {err} \n {parametros}")  
 
 #read-consultar datos
 def read_cliente():
@@ -425,10 +506,11 @@ def menu_cliente ():
             try :
                 id =int(input("ingrese el id de la persona"))
                 rut=input("ingrese el rut de la persona")
-                nombre=input("ingrese los nombres de la persona")
+                nombres=input("ingrese los nombres de la persona")
                 apellidos=input("ingrese los apellidos de la persona")
-                fecha_nacimiento =
+                fecha_nacimiento =input("Ingresa la fecha de nacimiento (año-mes-dia). Ej: 2002-12-30: ")
                 correo=input("ingrese el correo de la persona")
+                create_cliente(id,rut,nombres,apellidos,fecha_nacimiento,correo)
             except ValueError :
                 print("ingreso un valor no numerico")
             input("presione ENTER para continuar...")
