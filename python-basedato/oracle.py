@@ -28,7 +28,8 @@ tables=[
 
 
     (  "CREATE TABLE cliente ("
-            "rut VARCHAR2(50) PRIMARY KEY,"
+            "id INT(100) PRIMARY KEY,"
+            "rut VARCHAR2(50),"
             "nombres VARCHAR2(200),"
             "apellidos VARCHAR2(200),"
             "numero_telefono VARCHAR2(50)," 
@@ -80,6 +81,7 @@ for query in tables:
 from datetime import datetime
 ##CREATE
 def create_cliente(
+                    id:int,
                     rut:str, 
                    nombres:str, 
                    apellidos:str, 
@@ -88,11 +90,12 @@ def create_cliente(
                    correo:str
 ):
     sql={
-        "INSERT INTO CLIENTE (rut,nombres,apellidos,fecha_nacimiento,numero_telefono,correo)"
-        "VALUES(:rut,:nombres,apellidos,:fechas_nacimiento,numero_telefono,:correo)"
+        "INSERT INTO CLIENTE (id,rut,nombres,apellidos,fecha_nacimiento,numero_telefono,correo)"
+        "VALUES(:id,:rut,:nombres,apellidos,:fechas_nacimiento,numero_telefono,:correo)"
     }
 
     parametros = {
+        "id":id,
         "rut":rut,
         "nombres": nombres,
         "apellidos":apellidos,
@@ -113,6 +116,7 @@ def create_cliente(
             print(f"No se pudo crear la tabla: {err} \n {parametros}")
 
 create_cliente(
+    id=1,
     rut="22400419-2",
     nombres="pepe",
     apellidos="melo",
@@ -122,6 +126,7 @@ create_cliente(
 );
 
 create_cliente(
+    id=2,
     rut="18355987-7",
     nombres="Carlos",
     apellidos="Ramírez",
@@ -131,6 +136,7 @@ create_cliente(
 );
 
 create_cliente(
+    id=3,
     rut="20988765-3",
     nombres="María",
     apellidos="López",
@@ -140,6 +146,7 @@ create_cliente(
 );
 
 create_cliente(
+    id=4,
     rut="17544329-4",
     nombres="Javier",
     apellidos="Fuentes",
@@ -149,6 +156,7 @@ create_cliente(
 );
 
 create_cliente(
+    id=5,
     rut="22687912-1",
     nombres="Daniela",
     apellidos="Pérez",
@@ -248,6 +256,44 @@ def create_pedido_domicilio(
 ):
     pass  
 
+#read-consultar datos
+def read_cliente():
+    sql = (
+        "SELECT * FROM cliente"
+    )
+    try:
+        with get_connection() as conn:
+            with conn.cursor() as cur:
+                resultados = cur.execute(sql)
+                print(f"Consulta a la tabla cliente")
+                for fila in resultados:
+                    print(fila)
+    except oracledb.DatabaseError as e:
+        err = e
+        print(f"Error al insertar datos: {err}")
+
+
+#=====================================================#
+def read_persona_by_id(id):
+    sql = (
+        "SELECT * FROM cliente WHERE id = :id"
+    )
+
+    parametros = {"id": id}
+
+    try:
+        with get_connection() as conn:
+            with conn.cursor() as cur:
+                resultados = cur.execute(sql, parametros)
+                print(f"Consulta a la tabla cliente por ID")
+                for fila in resultados:
+                    print(fila)
+    except oracledb.DatabaseError as e:
+        err = e
+        print(f"Error al insertar datos: {err}")
+
+
+
 from typing import Optional 
 #update
 
@@ -261,4 +307,34 @@ def update_cliente(
 
 ):
     modificaciones=[]
-    parametros=("rut"=rut) 
+    parametros= {"id":id}
+ 
+    if rut is not None:
+        modificaciones.append("rut =: rut")
+        parametros["rut"] = rut
+    if nombres is not None:
+        modificaciones.append("nombres =: nombres")
+        parametros["nombres"] = nombres
+    if apellidos is not None:
+        modificaciones.append("apellidos =: apellidos")
+        parametros["apellidos"] = apellidos
+    if numero_telefono is not None:
+        modificaciones.append("numero_telefono =: numero_telefono")
+        parametros["numero_telefono"] = numero_telefono
+    if correo is not None:
+        modificaciones.append("correo =: correo")
+        parametros["correo"] = correo
+    if fecha_nacimiento is not None:
+        modificaciones.append("fecha_nacimiento =: fecha_nacimiento")
+        parametros["fecha_nacimiento"] = datetime.strptime(
+            fecha_nacimiento, "%Y-%m-%d")
+    if not modificaciones:
+        return print("No hay campos para actualizar.")
+ 
+    sql = f"UPDATE personas SET {", ".join(modificaciones)} WHERE id =: id"
+
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute(sql, parametros)
+        conn.commit()
+        print(f"Persona con RUT={rut} actualizada.")
