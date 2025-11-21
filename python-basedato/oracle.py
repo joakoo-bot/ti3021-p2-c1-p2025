@@ -247,3 +247,18 @@ def create_pedido_domicilio(
                             
 ):
     pass  
+
+from typing import Optional 
+#update
+
+def update_cliente(
+        rut,
+        nombres: Optional[str]=None , 
+        apellidos: Optional[str]=None , 
+        fecha_nacimiento: Optional[str]=None ,
+        numero_telefono: Optional[str]=None ,
+        correo: Optional[str]=None 
+
+):
+    modificaciones=[]
+    parametros=("rut"=rut) 
