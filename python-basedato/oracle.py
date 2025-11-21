@@ -11,7 +11,6 @@ password = os.getenv("ORACLE_PASSWORD")
 def get_connection():
     return oracledb.connect(user=username, password=password, dsn=dsn) 
 
-
 def create_schema(query):
     try:
         with get_connection() as conn:
@@ -22,7 +21,6 @@ def create_schema(query):
     except oracledb.DatabaseError as e:
         err = e
         print(f"No se pudo crear la tabla: {err} \n {query}")
-
 
 tables=[
 
@@ -124,7 +122,6 @@ create_cliente(
     numero_telefono="989864544",
     correo="el_vio@gmail.com"
 );
-
 create_cliente(
     id=2,
     rut="18355987-7",
@@ -134,7 +131,6 @@ create_cliente(
     numero_telefono="945672310",
     correo="c.ramirez@example.com"
 );
-
 create_cliente(
     id=3,
     rut="20988765-3",
@@ -144,7 +140,6 @@ create_cliente(
     numero_telefono="987452130",
     correo="m.lopez@example.com"
 );
-
 create_cliente(
     id=4,
     rut="17544329-4",
@@ -154,7 +149,6 @@ create_cliente(
     numero_telefono="923118540",
     correo="j.fuentes@example.com"
 );
-
 create_cliente(
     id=5,
     rut="22687912-1",
@@ -272,7 +266,6 @@ def read_cliente():
         err = e
         print(f"Error al insertar datos: {err}")
 
-
 #=====================================================#
 def read_persona_by_id(id):
     sql = (
@@ -291,8 +284,6 @@ def read_persona_by_id(id):
     except oracledb.DatabaseError as e:
         err = e
         print(f"Error al insertar datos: {err}")
-
-
 
 from typing import Optional 
 #update
@@ -337,4 +328,132 @@ def update_cliente(
         with conn.cursor() as cur:
             cur.execute(sql, parametros)
         conn.commit()
-        print(f"Persona con RUT={rut} actualizada.")
+        print(f"Persona con RUT={rut} actualizada.") 
+
+#eliminar datos 
+
+def eliminar_cliente(id:int): 
+    sql=(
+        "DELETE FROM cliente WHERE id=id"
+    ) 
+
+    parametros ={"id":id} 
+
+    try:
+        with get_connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute(sql, parametros)
+            conn.commit()
+            print(f"dato eliminado {parametros}")
+    except oracledb.DatabaseError as e:
+        err = e
+        print(f"Error al eliminar dato: {err} \n {sql} \n {parametros}")
+
+
+#menu
+def main ():
+    while True : 
+        os.system("cls")
+        print(
+            """
+            ╔═════════════════════════════════════════╗
+            ║           crud con oraclesql            ║          
+            ║               ᕙ(⇀‸↼‵)ᕗ                 ║
+            ╠═════════════════════════════════════════╣
+            ║ ●1.aplicar esquema en la baser de datos ║  
+            ║ ●2.tabla cliente                        ║  
+            ║ ●3.tabla pedido                         ║  
+            ║ ●4.tabla pedido local                   ║
+            ║ ●5.tabla pedido para llevar             ║   
+            ║ ●6.tabla pedido a domicilio             ║  
+            ║ ●7.tabla repartidor                     ║  
+            ║ ●0.salir                                ║  
+            ╚═════════════════════════════════════════╝  
+            """
+        )
+        opcion = input("selecciona una opcion[1-7, 0 para salir]:")
+        if opcion == 0: 
+            print("chao ,feo  ( -_･) ︻デ═一' * (/❛o❛)/ ....")
+            input("presiona ENTER para continuar...")
+            break 
+        elif opcion=="1":
+            pass
+        elif opcion=="2":
+            pass
+        elif opcion=="3":
+            pass
+        elif opcion=="4":
+            pass
+        elif opcion=="5":
+            pass
+        elif opcion=="6":
+            pass
+        elif opcion=="7":
+            pass 
+        else : 
+            print("opcion invalida")
+            input("presione ENTER para continuar...")
+            break
+
+
+#menus tablas
+def menu_cliente ():
+    while True : 
+        os.system("cls")
+        print(
+            """
+            ╔═════════════════════════════════════════╗
+            ║           menu tabla cliente            ║          
+            ║                ᕙ(⇀‸↼‵)ᕗ                ║
+            ╠═════════════════════════════════════════╣
+            ║ ●1.aplicar esquema en la baser de datos ║  
+            ║ ●2.tabla cliente                        ║  
+            ║ ●3.tabla pedido                         ║  
+            ║ ●4.tabla pedido local                   ║
+            ║ ●5.tabla pedido para llevar             ║   
+            ║ ●6.tabla pedido a domicilio             ║  
+            ║ ●7.tabla repartidor                     ║  
+            ║ ●0.salir                                ║  
+            ╚═════════════════════════════════════════╝  
+            """
+        ) 
+
+        opcion = input("selecciona una opcion[1-7, 0 para salir]:")
+        if opcion == 0: 
+            print("chao ,feo  ( -_･) ︻デ═一' * (/❛o❛)/ ....")
+            input("presiona ENTER para continuar...")
+            break 
+        elif opcion=="1": 
+            try :
+                id =int(input("ingrese el id de la persona"))
+                rut=input("ingrese el rut de la persona")
+                nombre=input("ingrese los nombres de la persona")
+                apellidos=input("ingrese los apellidos de la persona")
+                fecha_nacimiento =
+                correo=input("ingrese el correo de la persona")
+            except ValueError :
+                print("ingreso un valor no numerico")
+            input("presione ENTER para continuar...")
+
+
+        elif opcion=="2":
+            pass
+        elif opcion=="3":
+            pass
+        elif opcion=="4":
+            pass
+        elif opcion=="5":
+            pass
+        elif opcion=="6":
+            pass
+        elif opcion=="7":
+            pass 
+        else : 
+            print("opcion invalida")
+            input("presione ENTER para continuar...")
+            break
+
+
+if __name__ == "__main__":
+    main() 
+
