@@ -406,13 +406,11 @@ def menu_cliente ():
             ║           menu tabla cliente            ║          
             ║                ᕙ(⇀‸↼‵)ᕗ                ║
             ╠═════════════════════════════════════════╣
-            ║ ●1.aplicar esquema en la baser de datos ║  
-            ║ ●2.tabla cliente                        ║  
-            ║ ●3.tabla pedido                         ║  
-            ║ ●4.tabla pedido local                   ║
-            ║ ●5.tabla pedido para llevar             ║   
-            ║ ●6.tabla pedido a domicilio             ║  
-            ║ ●7.tabla repartidor                     ║  
+            ║ ●1.insertar cliente                     ║  
+            ║ ●2.leer cliente                         ║  
+            ║ ●3.leer cliente por id                  ║  
+            ║ ●4.modificar cliente                    ║
+            ║ ●5.eliminar cliente                     ║                        
             ║ ●0.salir                                ║  
             ╚═════════════════════════════════════════╝  
             """
@@ -420,7 +418,7 @@ def menu_cliente ():
 
         opcion = input("selecciona una opcion[1-7, 0 para salir]:")
         if opcion == 0: 
-            print("chao ,feo  ( -_･) ︻デ═一' * (/❛o❛)/ ....")
+            print("chao ,feo  ( -_･) ︻デ═一'  * (/❛o❛)/ ....")
             input("presiona ENTER para continuar...")
             break 
         elif opcion=="1": 
@@ -443,10 +441,6 @@ def menu_cliente ():
         elif opcion=="4":
             pass
         elif opcion=="5":
-            pass
-        elif opcion=="6":
-            pass
-        elif opcion=="7":
             pass 
         else : 
             print("opcion invalida")
