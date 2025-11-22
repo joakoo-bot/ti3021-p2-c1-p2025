@@ -1,6 +1,7 @@
 import oracledb
 import os
-from dotenv import load_dotenv 
+from dotenv import load_dotenv  
+from typing import Optional 
 
 load_dotenv() 
 
@@ -35,7 +36,8 @@ tables=[
             ")"
 
         "CREATE TABLE repartidor ("
-            "rut VARCHAR2(50) PRIMARY KEY,"
+            "id VARCHAR2(50) PRIMARY KEY,"
+            "rut VARCHAR2(50),"
             "nombres VARCHAR2(200),"
             "apellidos VARCHAR2(200),"
             "numero_telefono VARCHAR2(50)," 
@@ -242,7 +244,7 @@ def create_repartidor(
         "correo":correo
     }
     
-    def create_cliente(query):
+    def create_repartidor(query):
         try:
             with get_connection() as conn:
                 with conn.cursor() as cur:
@@ -267,7 +269,7 @@ def create_pedido_local(
         "Npedido":Npedido
     }
     
-    def create_cliente(query):
+    def create_pedido_local(query):
         try:
             with get_connection() as conn:
                 with conn.cursor() as cur:
@@ -292,7 +294,7 @@ def create_pedido_llevar(
         "Npedido":Npedido
     }
     
-    def create_cliente(query):
+    def create_pedido_llevar(query):
         try:
             with get_connection() as conn:
                 with conn.cursor() as cur:
@@ -320,7 +322,7 @@ def create_pedido_domicilio(
         "RUTrepartidor": RUTrepartidor
     }
     
-    def create_cliente(query):
+    def create_pedido_domicilio(query):
         try:
             with get_connection() as conn:
                 with conn.cursor() as cur:
@@ -332,6 +334,39 @@ def create_pedido_domicilio(
             print(f"No se pudo crear la tabla: {err} \n {parametros}")  
 
 #read-consultar datos
+def read_pedido():
+    sql = (
+        "SELECT * FROM pedido"
+    )
+    try:
+        with get_connection() as conn:
+            with conn.cursor() as cur:
+                resultados = cur.execute(sql)
+                print(f"Consulta a la tabla pedido")
+                for fila in resultados:
+                    print(fila)
+    except oracledb.DatabaseError as e:
+        err = e
+        print(f"Error al insertar datos: {err}")
+#=====================================================#
+def read_cliente_by_id(numero):
+    sql = (
+        "SELECT * FROM pedido WHERE numero = :numero"
+    )
+
+    parametros = {"numero": numero}
+
+    try:
+        with get_connection() as conn:
+            with conn.cursor() as cur:
+                resultados = cur.execute(sql, parametros)
+                print(f"Consulta a la tabla cliente por ID")
+                for fila in resultados:
+                    print(fila)
+    except oracledb.DatabaseError as e:
+        err = e
+        print(f"Error al insertar datos: {err}")
+
 def read_cliente():
     sql = (
         "SELECT * FROM cliente"
@@ -346,9 +381,8 @@ def read_cliente():
     except oracledb.DatabaseError as e:
         err = e
         print(f"Error al insertar datos: {err}")
-
 #=====================================================#
-def read_persona_by_id(id):
+def read_cliente_by_id(id):
     sql = (
         "SELECT * FROM cliente WHERE id = :id"
     )
@@ -366,7 +400,44 @@ def read_persona_by_id(id):
         err = e
         print(f"Error al insertar datos: {err}")
 
-from typing import Optional 
+def read_repartidor():
+    sql = (
+        "SELECT * FROM repartidor"
+    )
+    try:
+        with get_connection() as conn:
+            with conn.cursor() as cur:
+                resultados = cur.execute(sql)
+                print(f"Consulta a la tabla reparidor")
+                for fila in resultados:
+                    print(fila)
+    except oracledb.DatabaseError as e:
+        err = e
+        print(f"Error al insertar datos: {err}")
+#=====================================================#
+def read_repartidor_by_id(id):
+    sql = (
+        "SELECT * FROM cliente WHERE id = :id"
+    )
+
+    parametros = {"id": id}
+
+    try:
+        with get_connection() as conn:
+            with conn.cursor() as cur:
+                resultados = cur.execute(sql, parametros)
+                print(f"Consulta a la tabla repartidor por ID")
+                for fila in resultados:
+                    print(fila)
+    except oracledb.DatabaseError as e:
+        err = e
+        print(f"Error al insertar datos: {err}")
+
+
+
+
+
+
 #update
 
 def update_cliente(
