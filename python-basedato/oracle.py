@@ -2,6 +2,7 @@ import oracledb
 import os
 from dotenv import load_dotenv  
 from typing import Optional 
+from datetime import datetime
 
 load_dotenv() 
 
@@ -22,64 +23,63 @@ def create_schema(query):
     except oracledb.DatabaseError as e:
         err = e
         print(f"No se pudo crear la tabla: {err} \n {query}")
+def crear_tablas():
+    tables=[
 
-tables=[
 
+        (  "CREATE TABLE cliente ("
+                "id INT(100) PRIMARY KEY,"
+                "rut VARCHAR2(50),"
+                "nombres VARCHAR2(200),"
+                "apellidos VARCHAR2(200),"
+                "numero_telefono VARCHAR2(50)," 
+                "correo VARCHAR2(100)"
+                ")"
 
-    (  "CREATE TABLE cliente ("
-            "id INT(100) PRIMARY KEY,"
-            "rut VARCHAR2(50),"
-            "nombres VARCHAR2(200),"
-            "apellidos VARCHAR2(200),"
-            "numero_telefono VARCHAR2(50)," 
-            "correo VARCHAR2(100)"
-            ")"
+            "CREATE TABLE repartidor ("
+                "id VARCHAR2(50) PRIMARY KEY,"
+                "rut VARCHAR2(50),"
+                "nombres VARCHAR2(200),"
+                "apellidos VARCHAR2(200),"
+                "numero_telefono VARCHAR2(50)," 
+                "correo VARCHAR2(100)"
+                ")" 
 
-        "CREATE TABLE repartidor ("
-            "id VARCHAR2(50) PRIMARY KEY,"
-            "rut VARCHAR2(50),"
-            "nombres VARCHAR2(200),"
-            "apellidos VARCHAR2(200),"
-            "numero_telefono VARCHAR2(50)," 
-            "correo VARCHAR2(100)"
-            ")" 
-
-        "CREATE TABLE pedido ("
-            "numero int PRIMARY KEY,"
-            "fecha date,"
-            "total a pagar int,"
-            "RUTcliente VARCHAR2(50)," 
-            "FOREIGN KEY (RUTcliente) REFERENCES cliente(rut)"
-            ")" 
+            "CREATE TABLE pedido ("
+                "numero int PRIMARY KEY,"
+                "fecha date,"
+                "total a pagar int,"
+                "RUTcliente VARCHAR2(50)," 
+                "FOREIGN KEY (RUTcliente) REFERENCES cliente(rut)"
+                ")" 
     
-        "CREATE TABLE pedido_domicilio ("
-            "direccion  VARCHAR2(100),"
-            "RUTrepartidor VARCHAR2(50),"
-            "Npedido int ," 
-            "FOREIGN KEY (RUTrepartidor) REFERENCES repartidor(rut),"
-            "FOREIGN KEY (Npedido) REFERENCES pedido(numero)"
-            ")" 
+            "CREATE TABLE pedido_domicilio ("
+                "direccion  VARCHAR2(100),"
+                "RUTrepartidor VARCHAR2(50),"
+                "Npedido int ," 
+                "FOREIGN KEY (RUTrepartidor) REFERENCES repartidor(rut),"
+                "FOREIGN KEY (Npedido) REFERENCES pedido(numero)"
+                ")" 
 
-        "CREATE TABLE pedido_local ("
-            "numero_mesa int,"
-            "Npedido int ," 
-            "FOREIGN KEY (Npedido) REFERENCES pedido(numero)"
-            ")" 
+            "CREATE TABLE pedido_local ("
+                "numero_mesa int,"
+                "Npedido int ," 
+                "FOREIGN KEY (Npedido) REFERENCES pedido(numero)"
+                ")" 
 
-        "CREATE TABLE pedido_llevar ("
-            "tiempo estimado int,"
-            "Npedido int ," 
-            "FOREIGN KEY (Npedido) REFERENCES pedido(numero)" 
-            ")"
-    )
-]
+            "CREATE TABLE pedido_llevar ("
+                "tiempo estimado int,"
+                "Npedido int ," 
+                "FOREIGN KEY (Npedido) REFERENCES pedido(numero)" 
+                ")"
+        )
+    ]
 
-for query in tables:
-    create_schema(query)
+    for query in tables:
+        create_schema(query)
 
 
-from datetime import datetime
-##CREATE
+#CREATE
 def create_cliente(
                     id:int,
                     rut:str, 
@@ -99,7 +99,7 @@ def create_cliente(
         "rut":rut,
         "nombres": nombres,
         "apellidos":apellidos,
-        "fecha_nacimiento":datetime.strptime(fecha_nacimiento,"%y-%m-%d"),
+        "fecha_nacimiento":datetime.strptime(fecha_nacimiento,"%d-%m-%Y"),
         "numero_telefono":numero_telefono,
         "correo":correo
     }
@@ -176,7 +176,7 @@ def create_pedido(
        "numero":numero,
        "RUTcliente":RUTcliente,
        "total_a_pagar":total_a_pagar,
-       "fecha":datetime.strptime(fecha,"%y-%m-%d")
+       "fecha":datetime.strptime(fecha,"%d-%m-%Y")
    }
     def create_pedido(query):
         try:
@@ -264,6 +264,7 @@ create_cliente(
     numero_telefono="912345678",
     correo="juan.perez@gmail.com"
 );
+
 create_cliente(
     id="c3",
     rut="18900543-7",
@@ -920,7 +921,7 @@ def main ():
             input("presiona ENTER para continuar...")
             break 
         elif opcion=="1":
-            pass
+            crear_tablas()
         elif opcion=="2":
             menu_cliente()
         elif opcion=="3":
