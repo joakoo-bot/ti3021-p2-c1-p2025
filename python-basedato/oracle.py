@@ -909,12 +909,12 @@ def main ():
             ║ ●1.aplicar esquema en la baser de datos ║  
             ║ ●2.tabla cliente                        ║    
             ║ ●3.tabla pedido                         ║ 
-            ║ ●6.tabla repartidor                     ║  
+            ║ ●4.tabla repartidor                     ║  
             ║ ●0.salir                                ║  
             ╚═════════════════════════════════════════╝  
             """
         )
-        opcion = input("selecciona una opcion[1-6, 0 para salir]:")
+        opcion = input("selecciona una opcion[1-4, 0 para salir]:")
         if opcion == 0: 
             print("Saliendo del menú...  (￣▽￣)/")
             input("presiona ENTER para continuar...")
@@ -1042,7 +1042,7 @@ def menu_pedido_local():
             """
         )
 
-        opcion = input("selecciona una opcion[1-5, 0 para salir]:")
+        opcion = input("selecciona una opcion[1-6, 0 para salir]:")
 
         if opcion == "0":
             print("Saliendo del menú de pedidos local...  (￣▽￣)/")
@@ -1203,7 +1203,7 @@ def menu_pedido_domicilio():
             """
         )
 
-        opcion = input("selecciona una opcion[1-5, 0 para salir]:")
+        opcion = input("selecciona una opcion[1-6, 0 para salir]:")
 
         if opcion == "0":
             print("Saliendo del menú de pedido a domicilio...  (￣▽￣)/")
